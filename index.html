@@ -13,6 +13,7 @@
 
   <!-- 在这里添加 JavaScript 代码，如上面的示例 -->
   <script>
+  document.addEventListener('DOMContentLoaded', async () => {
   let pyodidePromise = (async function() {
     return await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/' });
   })();
@@ -33,8 +34,10 @@
   }
 
   document.getElementById('run-button').addEventListener('click', runPythonCode);
+});
+
+
   </script>
 
 </body>
 </html>
-
