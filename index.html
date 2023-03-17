@@ -11,9 +11,8 @@
   <button id="run-button">运行代码</button>
   <pre id="output"></pre>
 
-  <!-- 在这里添加 JavaScript 代码，如上面的示例 -->
   <script>
-  document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   let pyodidePromise = (async function() {
     return await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/' });
   })();
@@ -21,23 +20,19 @@
   async function runPythonCode() {
     const pythonCode = document.getElementById('python-code').value;
     const outputElement = document.getElementById('output');
+    outputElement.textContent = '';
 
     try {
       const pyodide = await pyodidePromise;
-      await pyodide.loadPackage(['numpy', 'pandas']);
-
       const result = pyodide.runPython(pythonCode);
       outputElement.textContent = result;
     } catch (error) {
-      outputElement.textContent = error.message;
+      outputElement.textContent = 'Error: ' + error.message;
     }
   }
 
   document.getElementById('run-button').addEventListener('click', runPythonCode);
 });
-
-
   </script>
-
 </body>
 </html>
