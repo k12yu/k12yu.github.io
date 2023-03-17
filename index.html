@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python 编辑器</title>
+</head>
+<body>
+  <textarea id="python-code" rows="10" cols="50"></textarea>
+  <button id="run-button">运行代码</button>
+  <pre id="output"></pre>
+
+  <!-- 在这里添加 JavaScript 代码，如上面的示例 -->
+  <script>
+  async function runPythonCode() {
+    const pythonCode = document.getElementById('python-code').value;
+    const outputElement = document.getElementById('output');
+
+    try {
+      await languagePluginLoader;
+      const pyodide = window.pyodide;
+      await pyodide.loadPackage(['numpy', 'pandas']); // 根据需要加载其他 Python 包
+
+      const result = pyodide.runPython(pythonCode);
+      outputElement.textContent = result;
+    } catch (error) {
+      outputElement.textContent = error.message;
+    }
+  }
+
+  document.getElementById('run-button').addEventListener('click', runPythonCode);
+</script>
+
+</body>
+</html>
