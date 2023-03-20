@@ -24,8 +24,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       const pyodide = await pyodidePromise;
-      const result = pyodide.runPython(pythonCode);
-      outputElement.textContent = result;
+
+      // 重定义 Python 的 print 函数以捕获输出
+      // 重定义 Python 的 print 函数以捕获输出
+pyodide.runPython(`
+import builtins
+_original_print = builtins.print
+
+def custom_print(*args, **kwargs):
+    end = kwargs.get('end', '\\n')
+    outputElement.textContent += ' '.join(map(str, args)) + end
+
+builtins.print = custom_print
+`);
+
+
+      pyodide.globals.outputElement = outputElement;
+      pyodide.runPython(pythonCode);
     } catch (error) {
       outputElement.textContent = 'Error: ' + error.message;
     }
